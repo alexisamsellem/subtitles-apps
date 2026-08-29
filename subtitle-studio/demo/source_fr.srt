@@ -1,0 +1,51 @@
+1
+00:00:01,000 --> 00:00:03,400
+Bonjour, capitaine Aurélie.
+
+2
+00:00:03,600 --> 00:00:06,200
+<i>Le vent se lève sur la côte…</i>
+
+3
+00:00:06,400 --> 00:00:09,800
+Vous êtes en retard.
+Encore une fois.
+
+4
+00:00:10,000 --> 00:00:12,000
+{\an8}PORT DE SAINT-MALO — 1943
+
+5
+00:00:12,200 --> 00:00:14,500
+Ça ira. J'ai déjà vu pire,
+crois-moi.
+
+6
+00:00:14,700 --> 00:00:16,000
+
+7
+00:00:16,200 --> 00:00:19,100
+Où est passé <b>Édouard</b> ?
+
+8
+00:00:19,300 --> 00:00:22,600
+<i>Il a filé à l'anglaise,
+comme d'habitude.</i>
+
+9
+00:00:22,800 --> 00:00:25,000
+Très drôle. Vraiment très drôle.
+
+10
+00:00:25,200 --> 00:00:28,900
+N'oubliez pas : demain, à l'aube,
+tout doit être prêt.
+
+11
+00:00:29,100 --> 00:00:31,400
+<font color="#ffcc00">— Compris ?
+— Compris.</font>
+
+12
+00:00:31,600 --> 00:00:34,000
+Alors à demain, capitaine.
