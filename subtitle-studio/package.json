@@ -2,6 +2,7 @@
   "name": "subtitle-studio",
   "private": true,
   "version": "0.0.0",
+  "description": "Local web app to translate and adapt SRT subtitles line by line, preserving the original timecodes on export.",
   "type": "module",
   "scripts": {
     "dev": "vite",

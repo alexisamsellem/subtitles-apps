@@ -1,93 +1,96 @@
 # Subtitle Studio
 
-Application web locale pour **traduire et adapter des sous-titres SRT** réplique par réplique,
-sans jamais manipuler le format technique du fichier. Inspirée du panneau de transcription de
-Premiere Pro : numéros et timecodes dans une colonne étroite, dialogue source verrouillé à gauche,
-traduction éditable à droite.
+A local web app for **translating and adapting SRT subtitles** line by line, without ever touching
+the technical format of the file. Inspired by Premiere Pro's transcript panel: numbers and timecodes
+in a narrow column, the read-only source dialogue on the left, the editable translation on the right.
 
-## Lancer l'application
+Everything runs in your browser. No account, no server, no upload.
+
+> **Note:** the application interface is in French.
+
+## Running the app
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
 ```
 
-Ou en version construite :
+Or the production build:
 
 ```bash
 npm run build
 npm run preview    # http://localhost:4173
 ```
 
-## Parcours
+## Walkthrough
 
-1. **Importer** un fichier SRT source (glisser-déposer ou clic). Numéros, timecodes et textes
-   sont analysés automatiquement ; les balises de style (`<i>`, `<b>`, `<font>`, `{\an8}`) qui
-   enveloppent une réplique sont extraites des zones d'édition et réappliquées à l'export.
-2. **Choisir** la langue source et la langue cible (pré-devinées depuis le nom du fichier).
-3. **Remplir la colonne cible**, au choix :
-   - *Importer une traduction* : un second SRT déjà traduit, aligné en priorité par numéros et
-     timecodes. Les écarts (renumérotation, lignes manquantes, lignes étrangères) sont signalés
-     dans un rapport et marqués « à vérifier » — jamais écrasés ni décalés silencieusement.
-   - *Traduire par IA* : Anthropic (Claude) ou OpenAI, au choix, avec une clé API saisie dans
-     l'interface et conservée **uniquement dans ce navigateur**. La traduction se fait par lots,
-     avec le contexte des répliques précédentes (ton, noms propres, continuité, longueur de
-     lecture). Seules les lignes vides sont remplies, et elles sont marquées « à vérifier ».
-   - *Saisie manuelle* : commencer avec une colonne vide.
-4. **Réviser** : ligne active surlignée, champs multi-lignes auto-redimensionnés, enregistrement
-   automatique, recherche, filtres (vides / à vérifier / modifiées), indicateur de progression.
-5. **Exporter** un SRT valide (UTF-8, CRLF) qui préserve **exactement** les numéros, l'ordre et
-   les timecodes du fichier source, avec les textes de la colonne cible.
+1. **Import** a source SRT file (drag and drop, or click). Numbers, timecodes and text are parsed
+   automatically. Style tags that wrap a whole line (`<i>`, `<b>`, `<font>`, `{\an8}`) are lifted
+   out of the editing fields and reapplied on export, so you never edit markup by hand.
+2. **Pick** the source and target languages (guessed from the file name).
+3. **Fill the target column**, in any of three ways:
+   - *Import a translation*: a second, already-translated SRT, aligned primarily by subtitle numbers
+     and timecodes. Mismatches (renumbering, missing lines, extra lines) are listed in a report and
+     flagged "to check" — never overwritten or silently shifted.
+   - *Translate with AI*: Anthropic (Claude) or OpenAI, with an API key entered in the interface and
+     kept **in your browser only**. Translation runs in batches with the context of preceding lines,
+     to preserve tone, proper nouns, continuity and a readable length. Only empty lines are filled,
+     and each one is flagged "to check".
+   - *Type it yourself*: start from an empty target column.
+4. **Review**: the active line is highlighted, target fields are multi-line and auto-resizing, edits
+   save automatically. Search, filters (empty / to check / edited) and a progress indicator help you
+   move through long files.
+5. **Export** a valid SRT (UTF-8, CRLF) that preserves the source file's numbers, order and timecodes
+   **exactly**, using only the text from the target column.
 
-Le projet en cours est enregistré automatiquement dans le navigateur (localStorage) : fermez
-l'onglet, rouvrez-le, votre travail est restauré.
+The current project is saved automatically in the browser (localStorage): close the tab, reopen it,
+and your work is restored.
 
-## Raccourcis clavier
+## Keyboard shortcuts
 
-| Raccourci | Action |
+| Shortcut | Action |
 |---|---|
-| `Alt + ↓` / `Alt + ↑` | Réplique suivante / précédente |
-| `Ctrl/⌘ + Entrée` | Valider et passer à la suivante |
-| `Ctrl/⌘ + K` | Rechercher |
-| `Ctrl/⌘ + S` | Exporter le SRT traduit |
+| `Alt + ↓` / `Alt + ↑` | Next / previous line |
+| `Ctrl/⌘ + Enter` | Confirm and move to the next line |
+| `Ctrl/⌘ + K` | Search |
+| `Ctrl/⌘ + S` | Export the translated SRT |
 
-## Traduction par IA — limite explicite
+## AI translation — an explicit limit
 
-L'intégration IA est complète (fournisseurs interchangeables, lots contextuels, progression,
-annulation, erreurs lisibles) mais nécessite **une clé API que vous êtes seul à pouvoir fournir**
-(Anthropic `sk-ant-…` ou OpenAI `sk-…`). L'interface l'indique clairement ; sans clé, tout le
-reste de l'application fonctionne normalement. La clé ne quitte jamais votre navigateur, hormis
-les appels directs au fournisseur choisi.
+The AI integration is complete (interchangeable providers, contextual batching, progress, cancel,
+readable errors) but needs **an API key that only you can supply** (Anthropic `sk-ant-…` or OpenAI
+`sk-…`). The interface states this plainly, and without a key everything else works normally. The key
+never leaves your browser, apart from the direct calls to the provider you choose.
 
-## Fichiers de démonstration
+## Demo files
 
-- `demo/source_fr.srt` — 12 répliques en français : accents, dialogues multi-lignes, italiques,
-  balise `<b>` en milieu de phrase, `<font color>`, tag de position `{\an8}`, sous-titre vide.
-- `demo/target_en.srt` — traduction anglaise volontairement imparfaite (renumérotée, une ligne
-  manquante, une ligne étrangère) pour tester le rapport d'alignement.
-- `node scripts/gen-large-srt.mjs 5000` — génère un gros fichier pour éprouver la fluidité
-  (la liste est virtualisée : elle reste fluide de 10 à 5000+ répliques).
+- `demo/source_fr.srt` — 12 French lines covering accents, multi-line dialogue, italics, a mid-sentence
+  `<b>` tag, `<font color>`, an `{\an8}` position tag, and an empty subtitle.
+- `demo/target_en.srt` — a deliberately imperfect English translation (renumbered, one line missing,
+  one extra line) to exercise the alignment report.
+- `node scripts/gen-large-srt.mjs 5000` — generates a large file to test responsiveness. The list is
+  virtualised, so it stays fluid from 10 to 5000+ lines.
 
-## Vérifications
+## Verification
 
 ```bash
-npm test       # 34 tests unitaires : parseur SRT, balises, alignement
-npm run e2e    # parcours complet dans un vrai navigateur (38 vérifications) :
-               # import → édition → persistance → alignement → filtres → export → 5000 lignes
+npm test       # 34 unit tests: SRT parser, style tags, alignment
+npm run e2e    # full journey in a real browser (38 checks):
+               # import → editing → persistence → alignment → filters → export → 5000 lines
 ```
 
-## Cas gérés
+## Handled cases
 
-UTF-8 (et repli windows-1252 pour les vieux fichiers), BOM, CRLF, accents et caractères
-spéciaux, dialogues multi-lignes, sous-titres vides, millisecondes en point, blocs sans numéro,
-blocs collés, fichiers WebVTT refusés avec un message clair, fichiers invalides expliqués en
-français, balises de style préservées sans édition manuelle.
+UTF-8 (with a windows-1252 fallback for older files), BOM, CRLF, accents and special characters,
+multi-line dialogue, empty subtitles, milliseconds written with a dot, blocks with no number, blocks
+run together without a blank line, WebVTT files rejected with a clear message, invalid files explained
+in plain language, and useful style tags preserved without manual editing.
 
 ## Stack
 
-Vite + React + TypeScript, `@tanstack/react-virtual` pour la virtualisation, zéro backend :
-tout est local. Tests : Vitest + Playwright.
+Vite + React + TypeScript, `@tanstack/react-virtual` for list virtualisation, no backend — everything
+is local. Tests: Vitest + Playwright.
 
-## Hors périmètre (volontairement)
+## Out of scope (deliberately)
 
-Comptes, collaboration, paiement, édition des timecodes, formats autres que SRT.
+Accounts, collaboration, payment, timecode editing, and subtitle formats other than SRT.
